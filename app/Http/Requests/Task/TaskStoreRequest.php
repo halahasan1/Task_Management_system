@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Task;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TaskStoreRequest extends FormRequest
@@ -58,7 +59,7 @@ class TaskStoreRequest extends FormRequest
     {
         if (! $this->has('created_by')) {
             $this->merge([
-                'created_by' => $this->user()->id(),
+                'created_by' => Auth::id(),
             ]);
         }
     }

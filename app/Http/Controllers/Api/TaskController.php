@@ -26,7 +26,8 @@ class TaskController extends Controller
     public function index(TaskIndexRequest $request)
     {
         try {
-            $tasks = $this->taskService->getFilteredTasks($request->validated());
+            $filters = $request->only(['title', 'priority', 'created_by', 'assigned_to']);
+            $tasks = $this->taskService->getFilteredTasks($filters);
             return $this->successResponse($tasks, 'Filtered task list retrieved.');
         } catch (\Throwable $e) {
             return $this->errorResponse('Failed to fetch tasks.', 500, ['error' => $e->getMessage()]);
