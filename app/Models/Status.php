@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Status extends Model
 {
-    protected $filllable = [
+    protected $fillable = [
         'name'
     ];
 

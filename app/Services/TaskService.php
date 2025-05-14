@@ -79,6 +79,6 @@ class TaskService
             $query->where('status_id', $filters['status_id']);
         }
 
-        return $query->with(['status', 'creator', 'assignee'])->latest()->paginate(10);
+        return $query->with(['status', 'creator', 'assignee','comments.user',])->latest()->paginate(10);
     }
 }

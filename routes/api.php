@@ -20,7 +20,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Task Routes
     Route::prefix('tasks')->group(function () {
-        Route::get('/', [TaskController::class, 'index']); 
+        Route::get('/', [TaskController::class, 'index']);
         Route::post('/', [TaskController::class, 'store']);
         Route::get('{task}', [TaskController::class, 'show']);
         Route::put('{task}', [TaskController::class, 'update']);
@@ -28,7 +28,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     // Status Routes
-    Route::prefix('statuses')->middleware('permission:manage-statuses')->group(function () {
+    Route::prefix('statuses')->group(function () {
         Route::get('/', [StatusController::class, 'index']);
         Route::post('/', [StatusController::class, 'store']);
         Route::put('{status}', [StatusController::class, 'update']);
