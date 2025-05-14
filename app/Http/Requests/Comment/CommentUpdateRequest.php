@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Comment;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -15,7 +15,7 @@ class CommentUpdateRequest extends FormRequest
         return $this->user()->can('update', $this->route('comment'));
     }
 
-    
+
     /**
      * Get the validation rules that apply to the request
      */
