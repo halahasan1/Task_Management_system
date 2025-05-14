@@ -3,11 +3,12 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use App\Enums\Permission;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
@@ -77,5 +78,41 @@ class User extends Authenticatable
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
+    }
+
+    /**
+     * Determine whether the user has a given permission based on their role.
+     *
+     * Managers have all permissions by default.
+     * Team leads and members have limited access according to their roles.
+     *
+     * @param  \App\Enums\Permission  $permission
+     * @return bool  True if the user has the specified permission, false otherwise.
+     */
+    public function hasPermission(Permission $permission): bool
+    {
+        return match ($this->role) {
+            'manager' => true,
+
+            'team-lead' => in_array($permission, [
+                Permission::TASK_CREATE,
+                Permission::TASK_VIEW,
+                Permission::TASK_UPDATE,
+                Permission::COMMENT_CREATE,
+                Permission::COMMENT_VIEW,
+                Permission::COMMENT_UPDATE,
+                Permission::COMMENT_DELETE,
+            ]),
+
+            'member' => in_array($permission, [
+                Permission::TASK_VIEW,
+                Permission::COMMENT_CREATE,
+                Permission::COMMENT_VIEW,
+                Permission::COMMENT_UPDATE,
+                Permission::COMMENT_DELETE,
+            ]),
+
+            default => false,
+        };
     }
 }
