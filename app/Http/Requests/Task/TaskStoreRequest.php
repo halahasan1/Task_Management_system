@@ -24,7 +24,7 @@ class TaskStoreRequest extends FormRequest
             'description'  => 'nullable|string',
             'status_id'    => 'required|exists:statuses,id',
             'assigned_to'  => 'required|exists:users,id|different:created_by',
-            'priority'     => 'nullable|in:low,medium,high',
+            'priority'     => 'in:low,medium,high',
         ];
     }
 
